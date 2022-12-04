@@ -45,9 +45,9 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-    res.send("WEB422 Assignment-1 (Web-API)");
+    res.send("WEB422");
   });
-  
+
 app.post("/api/user/register", (req, res) => {
 
     userService.registerUser(req.body)
