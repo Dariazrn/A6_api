@@ -15,22 +15,26 @@ let JwtStrategy = passportJWT.Strategy;
 
 let jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
-jwtOptions.secretOrKey = '8J*6830J&Out';
+
+jwtOptions.secretOrKey = process.env.JWT_SECRET;
 
 app.use(express.json());
 app.use(cors());
 
-let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
 
-      if (jwt_payload) {
+let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
+    console.log('payload received', jwt_payload);
+
+    if (jwt_payload) {
         next(null, {
-          _id: jwt_payload._id,
-          userName: jwt_payload.userName      
+            _id: jwt_payload._id,
+            userName: jwt_payload.userName
         });
-      } else {
+    } else {
         next(null, false);
-      }
-    });
+    }
+});
+
 passport.use(strategy);
 app.use(passport.initialize);
 
